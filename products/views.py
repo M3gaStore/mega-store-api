@@ -1,5 +1,4 @@
 from rest_framework import generics
-from django.shortcuts import get_object_or_404
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from products.filters import ProductsFilter
@@ -23,18 +22,16 @@ class ProductsView(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
 
-    def get(self, request, *args, **kwargs):
-        return self.list(request, *args, **kwargs)
 
-    def post(self, request, *args, **kwargs):
-        return self.create(request, *args, **kwargs)
+# patch, delete
+class SingleProductView(generics.RetrieveUpdateDestroyAPIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
 
 
 # all products of determined user
 class UserProductsView(generics.ListCreateAPIView):
-    ...
-
-
-# patch, delete
-class SingleProductView(generics.ListCreateAPIView):
     ...
