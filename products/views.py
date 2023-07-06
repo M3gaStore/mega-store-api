@@ -3,6 +3,7 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from products.filters import ProductsFilter
 from products.models import Product
+from products.permissions import IsUserProductOwner
 from products.serializers import ProductSerializer
 from django_filters.rest_framework import DjangoFilterBackend
 
@@ -26,12 +27,7 @@ class ProductsView(generics.ListCreateAPIView):
 # patch, delete
 class SingleProductView(generics.RetrieveUpdateDestroyAPIView):
     authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = [IsUserProductOwner]
 
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-
-
-# all products of determined user
-class UserProductsView(generics.ListCreateAPIView):
-    ...
