@@ -1,14 +1,15 @@
-from rest_framework.generics import ListAPIView, UpdateAPIView
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework import generics
+from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from carts.models import Cart
 from .serializers import CartSerializer
 
 
-class CartView(ListAPIView, UpdateAPIView):
+class CartView(generics.ListAPIView, generics.UpdateAPIView):
     authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = [IsAuthenticated]
+
     serializer_class = CartSerializer
 
     def get_queryset(self):
