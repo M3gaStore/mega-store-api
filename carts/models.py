@@ -2,7 +2,7 @@ from django.db import models
 
 
 class Cart(models.Model):
-    is_active = models.BooleanField()
+    is_active = models.BooleanField(default=True, blank=True)
     user = models.ForeignKey(
         "users.User", on_delete=models.PROTECT, related_name="cart"
     )

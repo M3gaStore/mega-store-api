@@ -13,3 +13,10 @@ class Product(models.Model):
     owner = models.ForeignKey(
         "users.User", on_delete=models.CASCADE, related_name="products"
     )
+
+    def save(self, *args, **kwargs):
+        if self.quantity_in_stock < 1:
+            self.is_available = False
+        else:
+            self.is_available = True
+        super().save(*args, **kwargs)
