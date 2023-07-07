@@ -29,3 +29,13 @@ class UserProductsView(generics.ListAPIView):
     def get_queryset(self):
         user_id = self.kwargs['pk']
         return Product.objects.filter(owner_id=user_id)
+
+
+class UserOrderView(generics.CreateAPIView):
+    serializer_class = ProductSerializer
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+    def get_queryset(self):
+        user_id = self.kwargs['pk']
+        return Product.objects.filter(owner_id=user_id)

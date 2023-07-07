@@ -11,9 +11,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv("SECRET_KEY", get_random_secret_key())
 
+RENDER_EXTERNAL_HOSNAME = os.getenv('RENDER_EXTERNAL_HOSTNAME')
+
 DEBUG = True
 
 ALLOWED_HOSTS = []
+
+if RENDER_EXTERNAL_HOSNAME:
+    ALLOWED_HOSTS += [RENDER_EXTERNAL_HOSNAME, '0.0.0.0']
 
 DJANGO_APPS = [
     "django.contrib.admin",
