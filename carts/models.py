@@ -4,7 +4,7 @@ from django.db import models
 class Cart(models.Model):
     is_active = models.BooleanField(default=True, blank=True)
     user = models.ForeignKey(
-        "users.User", on_delete=models.PROTECT, related_name="cart"
+        "users.User", on_delete=models.CASCADE, related_name="cart"
     )
 
     product_cart = models.ManyToManyField(
