@@ -17,12 +17,13 @@ class Order(models.Model):
         choices=OrderStatusChoices.choices,
         default=OrderStatusChoices.EM_ANDAMENTO,
     )
-
     total_value = models.FloatField()
 
     created_at = models.DateTimeField(auto_now_add=True)
 
-    product_order = models.ManyToManyField("products.Product", through="orders.OrderItem", related_name="order_products")
+    product_order = models.ManyToManyField(
+        "products.Product", through="orders.OrderItem", related_name="order_products"
+    )
 
 
 class OrderItem(models.Model):
