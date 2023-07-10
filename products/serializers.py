@@ -1,6 +1,5 @@
 from rest_framework import serializers
 
-from users.serializers import UserSerializer
 from .models import Product
 
 
@@ -17,7 +16,7 @@ class ProductSerializer(serializers.ModelSerializer):
             "is_available",
         ]
         read_only_fields = ["id", "is_available"]
+        extra_kwargs = {'quantity_in_stock': {'write_only': True}}
 
     def create(self, validated_data: dict) -> Product:
-        print(validated_data)
         return Product.objects.create(**validated_data)
