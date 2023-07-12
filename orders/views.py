@@ -9,7 +9,6 @@ from orders.serializers import (
 from users.permissions import IsAccountOwner, IsAdmin, IsSalesman
 from django.core.mail import send_mail
 from django.conf import settings
-from rest_framework.views import Response
 
 
 class OrderView(generics.CreateAPIView):
