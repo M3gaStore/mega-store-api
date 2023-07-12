@@ -1,10 +1,15 @@
-from django.shortcuts import render
-from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework import generics
 from orders.models import Order
-from orders.serializers import OrderSerializer, AllOrdersSerializer
+from orders.serializers import (
+    OrderSerializer,
+    AllOrdersSerializer,
+    UpdateOrderSerializer,
+)
 from users.permissions import IsAccountOwner, IsAdmin, IsSalesman
+from django.core.mail import send_mail
+from django.conf import settings
+from rest_framework.views import Response
 
 
 class OrderView(generics.CreateAPIView):
@@ -35,3 +40,19 @@ class OrderSalesView(generics.ListAPIView):
 
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
+
+
+class OrderUpdateView(generics.UpdateAPIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsSalesman | IsAdmin]
+
+    queryset = Order.objects.all()
+    serializer_class = UpdateOrderSerializer
+
+    send_mail(
+        subject="Order atualizada",
+        message="Email enviado",
+        from_email=settings.EMAIL_HOST_USER,
+        recipient_list=[settings.EMAIL_HOST_USER],
+        fail_silently=False,
+    )

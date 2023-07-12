@@ -11,14 +11,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv("SECRET_KEY", get_random_secret_key())
 
-RENDER_EXTERNAL_HOSNAME = os.getenv('RENDER_EXTERNAL_HOSTNAME')
+RENDER_EXTERNAL_HOSNAME = os.getenv("RENDER_EXTERNAL_HOSTNAME")
 
 DEBUG = True
 
 ALLOWED_HOSTS = []
 
 if RENDER_EXTERNAL_HOSNAME:
-    ALLOWED_HOSTS += [RENDER_EXTERNAL_HOSNAME, '0.0.0.0']
+    ALLOWED_HOSTS += [RENDER_EXTERNAL_HOSNAME, "0.0.0.0"]
 
 DJANGO_APPS = [
     "django.contrib.admin",
@@ -132,7 +132,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # Paginação + schema padrão para documentação!!
 REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
-    "PAGE_SIZE": 2,
+    "PAGE_SIZE": 5,
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
     # 'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
 }
@@ -150,3 +150,10 @@ SPECTACULAR_SETTINGS = {
     "TITLE": "Mega Store API",
     "DESCRIPTION": "API para gerenciar a maior loja do Brasil!!",
 }
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_USE_TLS = True
+EMAIL_HOST = os.getenv("EMAIL_HOST")
+EMAIL_PORT = os.getenv("EMAIL_PORT")
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
